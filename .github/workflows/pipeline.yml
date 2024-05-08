@@ -102,12 +102,10 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Deploy to Heroku
+      - name: Deploy to DigitalOcean
         if: ${{ github.event_name == 'push' }}
-        uses: akhileshns/heroku-deploy@v3.12.12
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: ${{secrets.HEROKU_APP}}
-          heroku_email: ${{secrets.HEROKU_API_EMAIL}}
-          healthcheck: "https://${{secrets.HEROKU_APP}}.herokuapp.com/health"
-          rollbackonhealthcheckfailed: true
+        env:  
+          DIGITALOCEAN_TOKEN; ${{ secrets.DIGITALOCEAN_TOKEN }}
+        run: |
+          curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer 
+          $DIGITALOCEAN_TOKEN" https://api.digitalocean.com/v2/apps/$APP_ID/deployments 
