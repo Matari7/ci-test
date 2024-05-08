@@ -96,16 +96,15 @@ jobs:
           wait-on: http://localhost:5000
 
   deploy:
-    needs: [test, e2e]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Deploy to DigitalOcean
-        if: ${{ github.event_name == 'push' }}
-        env:  
-          DIGITALOCEAN_TOKEN; ${{ secrets.DIGITALOCEAN_TOKEN }}
-        run: |
-          curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer 
-          $DIGITALOCEAN_TOKEN" https://api.digitalocean.com/v2/apps/$APP_ID/deployments 
+            needs: [test, e2e]
+            runs-on: ubuntu-latest
+            steps:
+              - uses: actions/checkout@v2
+                with:
+                  fetch-depth: 0
+              - name: Deploy to DigitalOcean
+                if: ${{ github.event_name == 'push' }}
+                env:
+                  DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
+                run: |
+                  curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $DIGITALOCEAN_TOKEN" https://api.digitalocean.com/v2/apps/$APP_ID/deployments
